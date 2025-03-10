@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import openai
+from fastapi.middleware.cors import CORSMiddleware  # Add this import
 from langchain_openai import OpenAIEmbeddings
 
 # 🔹 Load OpenAI API Key
@@ -20,6 +21,15 @@ client = openai.OpenAI(api_key=openai_api_key)
 
 # ✅ FastAPI App
 app = FastAPI(title="Chatbot API", version="1.0")
+
+# Add CORS middleware here
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 # ✅ Load JSON Data
 def load_json(file_path="final_persons.json"):
