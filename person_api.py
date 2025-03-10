@@ -9,17 +9,17 @@ import openai
 from fastapi.middleware.cors import CORSMiddleware  # Add this import
 from langchain_openai import OpenAIEmbeddings
 
-# 🔹 Load OpenAI API Key
+# Load OpenAI API Key
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 if not openai_api_key:
     raise ValueError("❌ OPENAI_API_KEY is missing! Set it as an environment variable.")
 
-# ✅ Initialize OpenAI Client
+# Initialize OpenAI Client
 client = openai.OpenAI(api_key=openai_api_key)
 
-# ✅ FastAPI App
+# FastAPI App
 app = FastAPI(title="Chatbot API", version="1.0")
 
 # Add CORS middleware here
@@ -31,13 +31,13 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# ✅ Load JSON Data
+# Load JSON Data
 def load_json(file_path="final_persons.json"):
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
     return data["persons"]
 
-# ✅ Initialize or Load FAISS Index
+# Initialize or Load FAISS Index
 def create_or_load_vector_store():
     json_data = load_json()
     
@@ -62,7 +62,7 @@ def create_or_load_vector_store():
 
 index, texts, json_data = create_or_load_vector_store()
 
-# ✅ Find Best Match Function
+# Find Best Match Function
 def find_best_matches(query, top_k=3):
     embeddings_model = OpenAIEmbeddings(openai_api_key=openai_api_key)
     query_vector = np.array([embeddings_model.embed_query(query[:200])], dtype=np.float32)
@@ -76,7 +76,7 @@ def find_best_matches(query, top_k=3):
 
     return results if results else [{"response": "No relevant data found."}]
 
-# ✅ OpenAI GPT-4 Response
+# OpenAI GPT-4 Response
 def get_chat_response(user_query):
     best_matches = find_best_matches(user_query, top_k=3)
     
@@ -94,7 +94,7 @@ def get_chat_response(user_query):
     except Exception as e:
         return f"❌ OpenAI API Error: {str(e)}"
 
-# ✅ API Endpoint for Chatbot
+# API Endpoint for Chatbot
 class QueryRequest(BaseModel):
     query: str
 
