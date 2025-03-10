@@ -1,0 +1,16 @@
+streamlit
+openai
+numpy
+faiss-cpu
+python-dotenv
+langchain
+pandas
+streamlit
+openai
+python-dotenv
+faiss-cpu
+fastapi==0.110.0
+uvicorn==0.27.0
+numpy
+langchain
+langchain_openai
