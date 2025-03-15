@@ -14,3 +14,12 @@ uvicorn==0.27.0
 numpy
 langchain
 langchain_openai
+fastapi
+uvicorn
+faiss-cpu
+numpy
+openai
+python-dotenv
+redis
+gunicorn
+langchain_openai
